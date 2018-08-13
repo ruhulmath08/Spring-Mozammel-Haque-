@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="patient" class="com.spring._setNullProperty.Patient">
+		<property name="emergencyContacts">
+			<list>
+				<ref bean="contact1" />
+				<ref bean="contact2" />
+				<ref bean="contact3" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="contact1" class="com.spring._setNullProperty.EmergencyContact">
+		<property name="name" value="Ruhul"></property>
+		<property name="phoneNumber" value="01745077380"></property>
+	</bean>
+
+	<bean id="contact2" class="com.spring._setNullProperty.EmergencyContact">
+		<property name="name" value="Shamim"></property>
+		<property name="phoneNumber" value="01745099876"></property>
+	</bean>
+
+	<bean id="contact3" class="com.spring._setNullProperty.EmergencyContact">
+		<property name="name" value="Monir"></property>
+		<property name="phoneNumber" value="01745077567"></property>
+	</bean>
+	
+	<bean id="contactbook"
+		class="com.spring._setNullProperty.ContactBook">
+		<property name="contact">
+			<map>
+				<entry key="first" value-ref="contact1"></entry>
+				<entry key="first" value-ref="contact1"></entry>
+				<entry key="first" value-ref="contact1"></entry>
+			</map>
+		</property>
+		<property name="patient"><null/></property>
+		
+	</bean>
+</beans>

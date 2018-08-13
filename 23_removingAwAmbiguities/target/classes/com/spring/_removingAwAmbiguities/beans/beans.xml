@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="logger" class="com.spring._removingAwAmbiguities.Logger"
+		autowire="byType">
+	</bean>
+
+	<bean id="consoleWriter"
+		class="com.spring._removingAwAmbiguities.ConsoleWriter"
+		primary="true">
+	</bean>
+
+	<bean id="consoleWriter2" class="com.spring._removingAwAmbiguities.ConsoleWriter">
+	</bean>
+	
+	<bean id="fileWriter"
+		class="com.spring._removingAwAmbiguities.FileWriter">
+	</bean>
+
+	<bean id="fileWriter2" class="com.spring._removingAwAmbiguities.FileWriter"
+		autowire-candidate="false">
+	</bean>
+</beans>

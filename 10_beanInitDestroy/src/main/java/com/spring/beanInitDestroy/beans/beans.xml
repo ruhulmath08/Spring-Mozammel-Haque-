@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-init-method="init" default-destroy-method="destroy">
+
+
+	<bean id="patient" class="com.spring.beanInitDestroy.Patient"
+		init-method="onCreate" scope="prototype" destroy-method="onDestroy">
+		<property name="id" value="1200"></property>
+		<property name="name" value="Shabib"></property>
+		<property name="nationalId" value="12345"></property>
+	</bean>
+</beans>
