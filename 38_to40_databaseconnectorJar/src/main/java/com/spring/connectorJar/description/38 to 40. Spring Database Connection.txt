@@ -1,0 +1,97 @@
+38 to 40. Spring Database Connection
+
+a)
+Create a Database(springtutorial) and a Table(notices) inside database
+
+b)
+Create an Entity(Notice) class and DAO(NoticeDAO) class
+
+c)
+For connect with database we need a jar(mysql-connector)
+
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.12</version>
+</dependency>
+
+In the mysql-connector jar goto 
+com.mysql.cj.jdbc -> Driver and copy the fully qualified name com.mysql.cj.jdbc.Driver and write it.
+
+d)
+Under the propes package create a file name jdbc.properties and write the following
+
+jdbc.username = root
+jdbc.password = 
+jdbc.driver = com.mysql.cj.jdbc.Driver
+jdbc.url = jdbc:mysql://localhost:3306/springtutorial
+
+e)
+Define a Datasource in our application. Since it is a standalone application, if it is a web application then web container provide the connection polling.
+
+To manage the connection pooling for our standalone application we have to add "commons-dbcp" jar.
+
+<dependency>
+	<groupId>commons-dbcp</groupId>
+	<artifactId>commons-dbcp</artifactId>
+	<version>1.4</version>
+</dependency>
+
+Goto commons-dbcp -> 
+org.apache.commons.dbcp ->
+org.apache.commons.dbcp.BasicDataSource
+copy the fully qualified name
+
+Define a data-source bean  in the beans.xml file
+
+beans -> new bean ->
+id-> dataSource
+class-> org.apache.commons.dbcp.BasicDataSource
+
+insert property in DataSource
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="${jdbc.driver}"></property>
+	<property name="url" value="${jdbc.url}"></property>
+	<property name="username" value="${jdbc.username}"></property>
+	<property name="password" value="${jdbc.password}"></property>
+</bean>
+
+f)
+Now we connect getNotices() method present in NoticesDAO, with our database. For this we need the JdbcTemplete. For use this we have to add "spring-jdbc" jar
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>5.0.8.RELEASE</version>
+</dependency>
+
+create a setter method of DataSource and add "@Autowired" annotation
+
+private JdbcTemplate jdbc;
+
+@Autowired
+public void setDataSource(DataSource jdbc) {
+	this.jdbc = new JdbcTemplate(jdbc);
+}
+
+g)
+Write the getNotices() method
+->Query in the database and take a list and mapping it with RowMapper
+->Return the list
+
+public List<Notice> getNotices() {
+	return jdbc.query("select * from notices", new RowMapper<Notice>() {
+
+		public Notice mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Notice notice = new Notice();
+			notice.setId(rs.getInt("id"));
+			notice.setName(rs.getString("name"));
+			notice.setEmail(rs.getString("email"));
+			notice.setText(rs.getString("text"));
+					
+			return notice;
+		}
+	});
+}
